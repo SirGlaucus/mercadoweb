@@ -1,7 +1,17 @@
 //Cargando librerias
+const { Pool } = require('pg')
 const express = require('express')
 const exphbs = require('express-handlebars')
 const app = express()
+
+
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    password: '1234',
+    port: 5432,
+    database: 'mercadoweb'
+})
 
 // Iniciando el servidor
 app.listen(3000, () => {
@@ -17,6 +27,44 @@ app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/c
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/js'))
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'))
 
+//  Definir la carpeta “assets” como carpeta pública del servidor
+app.use(express.static('assets/imgs'))
+
 // Ruta de la pagina inicial
-app.get('/', (req, res) => { res.render('main') })
+app.get('/', async (req, res) => {
+    const result = await pool.query('SELECT * FROM frutas')
+    const resultadoRows = result.rows
+    const frutasConRutas = resultadoRows.map((elemento) => {
+        let ruta
+        const nombre = elemento.nombre
+        const id = elemento.id
+        switch (elemento.id) {
+            case 1:
+                ruta = '/banana.png'
+                break;
+            case 2:
+                ruta = '/cebollas.png'
+                break;
+            case 3:
+                ruta = '/lechuga.png'
+                break;
+            case 4:
+                ruta = '/papas.png'
+                break;
+            case 5:
+                ruta = '/pimenton.png'
+                break;
+            case 6:
+                ruta = '/tomate.png'
+                break;
+            default:
+                console.log('Error inesperado');
+        }
+        return { nombre, ruta, id }
+    })
+    res.render('dashboard', {
+        layout: 'dashboard',
+        frutas: frutasConRutas
+    })
+})
 
