@@ -13,20 +13,88 @@
     <header>
         {{> Navbar}}
     </header>
+
     <div class="row row-cols-3 mt-3">
-            {{#each frutas}}
-            {{> Producto
-            producto = this
-            }}
-            {{/each}}
+        {{#each frutas}}
+        {{> Producto
+        producto = this
+        }}
+        {{/each}}
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-body" id="modal-para-mostrar">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/jquery/jquery.js"></script>
     <script src="/bootstrap/bootstrap.js"></script>
 </body>
 <script>
-    const alertaPersonalizada = (id) => {
-    console.log(`El id del producto es ${id}`)
-}
+    // Selectores
+    const modalBodySelector = document.querySelector('#modal-para-mostrar')
+    const botonBananaSelector = document.querySelector('#botonBanana')
+    const botonCebollaSelector = document.querySelector('#botonCebolla')
+    const botonLechugaSelector = document.querySelector('#botonLechuga')
+    const botonPapaSelector = document.querySelector('#botonPapa')
+    const botonPimentonSelector = document.querySelector('#botonPimenton')
+    const botonTomateSelector = document.querySelector('#botonTomate')
+
+    // LocalStorage y variable adicional para manejarla
+    let productos = localStorage.getItem('Productos')
+    let listaProductos
+
+    const agregarLocalStorage = (nombreFruta) => {
+        if (!listaProductos) {
+            listaProductos = `${nombreFruta}`
+        } else {
+            listaProductos = listaProductos + `,${nombreFruta}`
+        }
+        localStorage.setItem('Productos', listaProductos)
+        modalBodySelector.innerHTML = modalBodySelector.innerHTML + 'Pruebaasdfasdfasdf'
+    }
+
+    botonBananaSelector.addEventListener('click', () => {
+        agregarLocalStorage('Banana')
+    })
+
+    botonCebollaSelector.addEventListener('click', () => {
+        agregarLocalStorage('Banana')
+    })
+
+    botonLechugaSelector.addEventListener('click', () => {
+        agregarLocalStorage('Banana')
+    })
+
+    botonPapaSelector.addEventListener('click', () => {
+        agregarLocalStorage('Banana')
+    })
+
+    botonPimentonSelector.addEventListener('click', () => {
+        agregarLocalStorage('Banana')
+    })
+
+    botonTomateSelector.addEventListener('click', () => {
+        agregarLocalStorage('Banana')
+    })
+
+
+    /*if (productos[0] === null) {
+        productos.shift()
+    }
+    productos.push(id)
+    localStorage.setItem('Productos', productos)
+    let productosArray = [localStorage.getItem('Productos')]
+    const prueba = productosArray[0].split(',')*/
 </script>
+
 </html>

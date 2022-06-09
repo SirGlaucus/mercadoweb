@@ -33,38 +33,10 @@ app.use(express.static('assets/imgs'))
 // Ruta de la pagina inicial
 app.get('/', async (req, res) => {
     const result = await pool.query('SELECT * FROM frutas')
-    const resultadoRows = result.rows
-    const frutasConRutas = resultadoRows.map((elemento) => {
-        let ruta
-        const nombre = elemento.nombre
-        const id = elemento.id
-        switch (elemento.id) {
-            case 1:
-                ruta = '/banana.png'
-                break;
-            case 2:
-                ruta = '/cebollas.png'
-                break;
-            case 3:
-                ruta = '/lechuga.png'
-                break;
-            case 4:
-                ruta = '/papas.png'
-                break;
-            case 5:
-                ruta = '/pimenton.png'
-                break;
-            case 6:
-                ruta = '/tomate.png'
-                break;
-            default:
-                console.log('Error inesperado');
-        }
-        return { nombre, ruta, id }
-    })
+    console.log(result.rows)
     res.render('dashboard', {
         layout: 'dashboard',
-        frutas: frutasConRutas
+        frutas: result.rows
     })
 })
 
