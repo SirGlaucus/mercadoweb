@@ -36,6 +36,7 @@
             </div>
         </div>
     </div>
+    {{> Bienvenida}}
     <script src="/jquery/jquery.js"></script>
     <script src="/bootstrap/bootstrap.js"></script>
 </body>
@@ -48,6 +49,10 @@
     const botonPapaSelector = document.querySelector('#botonPapa')
     const botonPimentonSelector = document.querySelector('#botonPimenton')
     const botonTomateSelector = document.querySelector('#botonTomate')
+
+    $(window).on('load', function () {
+        $('#myModal').modal('show');
+    });
 
     // LocalStorage y variable adicional para manejarla
     let stringProductos = localStorage.getItem('Productos')
