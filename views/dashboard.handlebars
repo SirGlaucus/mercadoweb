@@ -42,6 +42,7 @@
 </body>
 <script>
     // Selectores
+    const limpiarCestaSelector = document.querySelector('#limpiar-cesta')
     const modalBodySelector = document.querySelector('#modal-para-mostrar')
     const botonBananaSelector = document.querySelector('#botonBanana')
     const botonCebollaSelector = document.querySelector('#botonCebolla')
@@ -50,17 +51,23 @@
     const botonPimentonSelector = document.querySelector('#botonPimenton')
     const botonTomateSelector = document.querySelector('#botonTomate')
 
-    $(window).on('load', function () {
-        $('#myModal').modal('show');
-    });
-
     // LocalStorage y variable adicional para manejarla
     let stringProductos = localStorage.getItem('Productos')
+
+    $(window).on('load', function () {
+        $('#myModal').modal('show')
+    })
+
+    limpiarCestaSelector.addEventListener('click', () => {
+        modalBodySelector.innerHTML = ""
+        localStorage.clear()
+        stringProductos = ''
+    })
+
 
     const modificarModal = (arrayObjetosFrutas) => {
         modalBodySelector.innerHTML = ""
         arrayObjetosFrutas.forEach((elemento) => {
-
             const nuevaCard = `
                 <div class="col my-2">
                     <div class="card text-center" style="width: 14rem;">
@@ -137,6 +144,10 @@
         agregarLocalStorage('Tomate')
     })
 
+    $(document).ready(() => {
+        $(".navbar").css("background", "green")
+        $(".a").css("color", "black")
+    });
 </script>
 
 </html>

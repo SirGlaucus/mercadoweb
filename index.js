@@ -33,7 +33,6 @@ app.use(express.static('assets/imgs'))
 // Ruta de la pagina inicial
 app.get('/', async (req, res) => {
     const result = await pool.query('SELECT * FROM frutas')
-    console.log(result.rows)
     res.render('dashboard', {
         layout: 'dashboard',
         frutas: result.rows
