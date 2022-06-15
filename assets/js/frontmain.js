@@ -1,32 +1,22 @@
 
-    // Selectores
-    const limpiarCestaSelector = document.querySelector('#limpiar-cesta')
-    const modalBodySelector = document.querySelector('#modal-para-mostrar')
-    const botonBananaSelector = document.querySelector('#botonBanana')
-    const botonCebollaSelector = document.querySelector('#botonCebolla')
-    const botonLechugaSelector = document.querySelector('#botonLechuga')
-    const botonPapaSelector = document.querySelector('#botonPapa')
-    const botonPimentonSelector = document.querySelector('#botonPimenton')
-    const botonTomateSelector = document.querySelector('#botonTomate')
+// Selectores
+const limpiarCestaSelector = document.querySelector('#limpiar-cesta')
+const modalBodySelector = document.querySelector('#modal-para-mostrar')
 
-    // LocalStorage y variable adicional para manejarla
-    let stringProductos = localStorage.getItem('Productos')
+$(window).on('load', function () {
+    $('#myModal').modal('show')
+})
 
-    $(window).on('load', function () {
-        $('#myModal').modal('show')
-    })
+limpiarCestaSelector.addEventListener('click', () => {
+    modalBodySelector.innerHTML = ""
+    localStorage.clear()
+    stringProductos = ''
+})
 
-    limpiarCestaSelector.addEventListener('click', () => {
-        modalBodySelector.innerHTML = ""
-        localStorage.clear()
-        stringProductos = ''
-    })
-
-
-    const modificarModal = (arrayObjetosFrutas) => {
-        modalBodySelector.innerHTML = ""
-        arrayObjetosFrutas.forEach((elemento) => {
-            const nuevaCard = `
+const modificarModal = (arrayObjetosFrutas) => {
+    modalBodySelector.innerHTML = ""
+    arrayObjetosFrutas.forEach((elemento) => {
+        const nuevaCard = `
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
@@ -39,69 +29,31 @@
                     </div>
                 </div>
         `
-            modalBodySelector.innerHTML = modalBodySelector.innerHTML + nuevaCard
-        })
+        modalBodySelector.innerHTML = modalBodySelector.innerHTML + nuevaCard
+    })
+}
+
+let stringProductos = JSON.parse(localStorage.getItem('Productos'))
+const agregarLocalStorage = (nombreFruta, rutaFruta) => {
+    if (!stringProductos) {
+        stringProductos = [{ nombre: nombreFruta, ruta_imagen: rutaFruta }]
+    } else {
+        stringProductos = stringProductos.concat([{ nombre: nombreFruta, ruta_imagen: rutaFruta }])
     }
+    localStorage.setItem('Productos', JSON.stringify(stringProductos))
+    modificarModal(stringProductos)
+}
 
-    const transformarToArray = (stringProductos) => {
-        arrayProductos = stringProductos.split(',')
-        const frutasObjetos = arrayProductos.map((fruta) => {
-            let nombre
-            let ruta_imagen
-            switch (fruta) {
-                case 'Banana':
-                    return { nombre: 'Banana', ruta_imagen: '/banana.png' }
-                case 'Cebolla':
-                    return { nombre: 'Cebolla', ruta_imagen: '/cebollas.png' }
-                case 'Lechuga':
-                    return { nombre: 'Lechuga', ruta_imagen: '/lechuga.png' }
-                case 'Papa':
-                    return { nombre: 'Papa', ruta_imagen: '/papas.png' }
-                case 'Pimenton':
-                    return { nombre: 'Pimenton', ruta_imagen: '/pimenton.png' }
-                case 'Tomate':
-                    return { nombre: 'Tomate', ruta_imagen: '/tomate.png' }
-            }
-        })
-        return frutasObjetos
-    }
-    const agregarLocalStorage = (nombreFruta) => {
-        if (!stringProductos) {
-            stringProductos = `${nombreFruta}`
-        } else {
-            stringProductos = stringProductos + `,${nombreFruta}`
-        }
-        localStorage.setItem('Productos', stringProductos)
-        listaObjetoFrutas = transformarToArray(stringProductos)
-        console.log(listaObjetoFrutas)
-        modificarModal(listaObjetoFrutas)
-    }
-
-    botonBananaSelector.addEventListener('click', () => {
-        agregarLocalStorage('Banana')
+const botonesFruta = document.querySelectorAll('.boton-carrito')
+botonesFruta.forEach(botonFruta => {
+    botonFruta.addEventListener('click', (event) => {
+        const nombreFruta = event.target.dataset.nombreFruta
+        const imagenFruta = event.target.dataset.rutaFruta
+        agregarLocalStorage(nombreFruta, imagenFruta)
     })
+})
 
-    botonCebollaSelector.addEventListener('click', () => {
-        agregarLocalStorage('Cebolla')
-    })
-
-    botonLechugaSelector.addEventListener('click', () => {
-        agregarLocalStorage('Lechuga')
-    })
-
-    botonPapaSelector.addEventListener('click', () => {
-        agregarLocalStorage('Papa')
-    })
-
-    botonPimentonSelector.addEventListener('click', () => {
-        agregarLocalStorage('Pimenton')
-    })
-
-    botonTomateSelector.addEventListener('click', () => {
-        agregarLocalStorage('Tomate')
-    })
-
-    $(document).ready(() => {
-        $("body").css("background-color", "#3DD6D0")
-        $(".color-texto-navbar").css("color", "white")
-    })
+$(document).ready(() => {
+    $("body").css("background-color", "#3DD6D0")
+    $(".color-texto-navbar").css("color", "white")
+})

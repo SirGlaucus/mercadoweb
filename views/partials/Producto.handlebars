@@ -13,7 +13,15 @@ del producto.-->
             <img src="{{producto.ruta_imagen}}" class="card-img-top" alt="...">
         </div>
         <div class="card-footer">
-            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="boton{{producto.nombre}}">Agregar producto</a>
+            <button 
+                class="btn btn-primary boton-carrito" 
+                data-nombre-fruta="{{producto.nombre}}" 
+                data-ruta-fruta="{{producto.ruta_imagen}}" 
+                data-bs-toggle="modal" 
+                data-bs-target="#exampleModal" 
+                id="boton{{producto.nombre}}">
+                    Agregar producto
+            </button>
         </div>
     </div>
 </div>
