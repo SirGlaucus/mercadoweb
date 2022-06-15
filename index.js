@@ -26,6 +26,8 @@ app.engine('handlebars', exphbs.engine({ layoutsDir: __dirname + '/views' }))
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/css'))
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap/dist/js'))
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'))
+app.use('/js', express.static(__dirname + '/assets/js'))
+// Consumir los códigos fuentes de Bootstrap y jQuery a través de rutas o middlewares creados en el servidor. Estas dependencias deben ser instaladas con NPM.
 
 //  Definir la carpeta “assets” como carpeta pública del servidor
 app.use(express.static('assets/imgs'))
@@ -38,4 +40,7 @@ app.get('/', async (req, res) => {
         frutas: result.rows
     })
 })
+// Crear una ruta raíz que al ser consultada renderice una vista con un parcial
+// “Dashboard” enviándole en el render un arreglo con los nombres de los productos. Se
+// recomienda que estos coincidan con las imágenes de cada producto.
 

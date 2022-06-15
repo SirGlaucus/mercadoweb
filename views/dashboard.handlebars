@@ -10,28 +10,36 @@
 </head>
 
 <body>
+
+    <!-- Incluir en la vista un parcial que contenga el menú del sitio web y sea renderizado
+antes del Dashboard. -->
     <header>
         {{> Navbar}}
     </header>
 
-    <div class="row row-cols-3 mt-3">
-        {{#each frutas}}
-        {{> Producto
-        producto = this
-        }}
-        {{/each}}
+    <div class="container">
+        <div class="row row-cols-3 mt-3">
+            {{#each frutas}}
+            {{> Producto
+            producto = this
+            }}
+            {{/each}}
+        </div>
     </div>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row" id="modal-para-mostrar">
 
-                <div class="modal-body" id="modal-para-mostrar">
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -39,115 +47,6 @@
     {{> Bienvenida}}
     <script src="/jquery/jquery.js"></script>
     <script src="/bootstrap/bootstrap.js"></script>
+    <script src="/js/frontmain.js"></script>
 </body>
-<script>
-    // Selectores
-    const limpiarCestaSelector = document.querySelector('#limpiar-cesta')
-    const modalBodySelector = document.querySelector('#modal-para-mostrar')
-    const botonBananaSelector = document.querySelector('#botonBanana')
-    const botonCebollaSelector = document.querySelector('#botonCebolla')
-    const botonLechugaSelector = document.querySelector('#botonLechuga')
-    const botonPapaSelector = document.querySelector('#botonPapa')
-    const botonPimentonSelector = document.querySelector('#botonPimenton')
-    const botonTomateSelector = document.querySelector('#botonTomate')
-
-    // LocalStorage y variable adicional para manejarla
-    let stringProductos = localStorage.getItem('Productos')
-
-    $(window).on('load', function () {
-        $('#myModal').modal('show')
-    })
-
-    limpiarCestaSelector.addEventListener('click', () => {
-        modalBodySelector.innerHTML = ""
-        localStorage.clear()
-        stringProductos = ''
-    })
-
-
-    const modificarModal = (arrayObjetosFrutas) => {
-        modalBodySelector.innerHTML = ""
-        arrayObjetosFrutas.forEach((elemento) => {
-            const nuevaCard = `
-                <div class="col my-2">
-                    <div class="card text-center" style="width: 14rem;">
-
-                        <div class="card-header">
-                            <h5 class="card-title">${elemento.nombre}</h5>
-                        </div>
-
-                        <div class="card-body">
-                            <img src="${elemento.ruta_imagen}" class="card-img-top" alt="...">
-                        </div>
-                    </div>
-                </div>
-        `
-            modalBodySelector.innerHTML = modalBodySelector.innerHTML + nuevaCard
-        })
-    }
-
-    const transformarToArray = (stringProductos) => {
-        arrayProductos = stringProductos.split(',')
-        const frutasObjetos = arrayProductos.map((fruta) => {
-            let nombre
-            let ruta_imagen
-            switch (fruta) {
-                case 'Banana':
-                    return { nombre: 'Banana', ruta_imagen: '/banana.png' }
-                case 'Cebolla':
-                    return { nombre: 'Cebolla', ruta_imagen: '/cebollas.png' }
-                case 'Lechuga':
-                    return { nombre: 'Lechuga', ruta_imagen: '/lechuga.png' }
-                case 'Papa':
-                    return { nombre: 'Papa', ruta_imagen: '/papas.png' }
-                case 'Pimenton':
-                    return { nombre: 'Pimenton', ruta_imagen: '/pimenton.png' }
-                case 'Tomate':
-                    return { nombre: 'Tomate', ruta_imagen: '/tomate.png' }
-            }
-        })
-        return frutasObjetos
-    }
-    const agregarLocalStorage = (nombreFruta) => {
-        if (!stringProductos) {
-            stringProductos = `${nombreFruta}`
-        } else {
-            stringProductos = stringProductos + `,${nombreFruta}`
-        }
-        localStorage.setItem('Productos', stringProductos)
-        listaObjetoFrutas = transformarToArray(stringProductos)
-        console.log(listaObjetoFrutas)
-        modificarModal(listaObjetoFrutas)
-    }
-
-    botonBananaSelector.addEventListener('click', () => {
-        agregarLocalStorage('Banana')
-    })
-
-    botonCebollaSelector.addEventListener('click', () => {
-        agregarLocalStorage('Cebolla')
-    })
-
-    botonLechugaSelector.addEventListener('click', () => {
-        agregarLocalStorage('Lechuga')
-    })
-
-    botonPapaSelector.addEventListener('click', () => {
-        agregarLocalStorage('Papa')
-    })
-
-    botonPimentonSelector.addEventListener('click', () => {
-        agregarLocalStorage('Pimenton')
-    })
-
-    botonTomateSelector.addEventListener('click', () => {
-        agregarLocalStorage('Tomate')
-    })
-
-    $(document).ready(() => {
-        $(".navbar").css("background", "green")
-        $("body").css("background-color", "yellow");
-    });
-</script>
-
 </html>
